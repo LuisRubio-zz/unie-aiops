@@ -1,0 +1,14 @@
+name: langchain-llm
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.11
+  - python-dotenv
+  - pip
+  - pip:
+      - langchain
+      - langchain-google-genai
+      - langgraph
+      - python-dotenv
+      - requests
