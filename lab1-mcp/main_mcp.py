@@ -4,7 +4,7 @@ import json
 import requests
 from dotenv import load_dotenv
 from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain.schema import HumanMessage
+from langchain_core.messages import HumanMessage
 
 # MCP Server URL
 MCP_URL = "http://127.0.0.1:8080/mcp"

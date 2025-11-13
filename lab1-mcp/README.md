@@ -3,6 +3,10 @@ Gemini LLM integrated with Kubernetes MCP server for natural language Kubernetes
 
 ## Pre-requisites
 
+### Clone Repo
+git clone https://github.com/LuisRubio-zz/unie-aiops.git
+cd unie-aiops/lab1-mcp/
+
 ### Environment variables
 Get a free gemini api key from https://ai.google.dev/gemini-api/docs/pricing
 ```bash
@@ -17,10 +21,11 @@ vi .env
 # Install conda in Linux:
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh && bash Miniconda3-latest-Linux-x86_64.sh
 conda --version
+echo $PATH # check conda is in the path
 
-# To install dependecies and start environment:
+# To install dependencies and start environment:
 conda env create -f environment.yml
-conda activate gemini-llm
+conda activate langchain-llm
 
 # If required, to deactivate conda environment
 conda deactivate
@@ -31,8 +36,11 @@ conda deactivate
 # Download k8s MCP https://github.com/containers/kubernetes-mcp-server
 curl -L -o kubernetes-mcp-server https://github.com/containers/kubernetes-mcp-server/releases/download/v0.0.52/kubernetes-mcp-server-linux-amd64
 
+chmod +x kubernetes-mcp-server
+
 sudo mv kubernetes-mcp-server /usr/bin/
 
+export KUBECONFIG=~/.kube/config
 kubernetes-mcp-server \
   --port 8080 \
   --kubeconfig $KUBECONFIG \
