@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
-from google import genai
+from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_core.messages import HumanMessage
 
 def main():
     # Load environment variables
@@ -10,12 +11,14 @@ def main():
     if not api_key:
         raise RuntimeError("GEMINI_API_KEY not found in environment.")
 
-    # Create client
-    client = genai.Client(api_key=api_key)
+    # Create LangChain client
+    llm = ChatGoogleGenerativeAI(
+        model="models/gemini-2.5-flash",
+        google_api_key=api_key,
+        temperature=0.7
+    )
 
-    model_name = "gemini-2.5-flash"
-
-    print("🤖 Gemini Chat (type 'exit' to quit)\n")
+    print("🤖 LangChain Gemini Chat (type 'exit' to quit)\n")
 
     while True:
         user_input = input("You: ").strip()
@@ -24,11 +27,8 @@ def main():
             break
 
         try:
-            response = client.models.generate_content(
-                model=model_name,
-                contents=user_input,
-            )
-            print(f"Gemini: {response.text}\n")
+            response = llm.invoke([HumanMessage(content=user_input)])
+            print(f"Gemini: {response.content}\n")
         except Exception as e:
             print(f"⚠️ Error: {e}\n")
 

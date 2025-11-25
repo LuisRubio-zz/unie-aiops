@@ -93,7 +93,8 @@ def main():
     print("🤖 LangChain + Kubernetes MCP Chat (type 'exit' to quit)\n")
     
     try:
-        print(f"Available MCP tools: {len(tools)}\n")
+        tool_names = [tool.name for tool in tools]
+        print(f"Available MCP tools ({len(tools)}): {', '.join(tool_names)}\n")
     except Exception as e:
         print(f"⚠️ Could not connect to MCP server: {e}")
         return

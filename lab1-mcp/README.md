@@ -16,18 +16,14 @@ cp .env.example .env
 vi .env
 ```
 
-### UV Package Manager
+### Setup
 ```bash
 # Install uv:
 curl -LsSf https://astral.sh/uv/install.sh | sh
 # Or on Windows: powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
 
-# Create virtual environment and install dependencies:
+# Install dependencies and create virtual environment:
 uv sync
-
-# Activate environment:
-source .venv/bin/activate  # Linux/Mac
-# Or on Windows: .venv\Scripts\activate
 ```
 
 ### K8s MCP
