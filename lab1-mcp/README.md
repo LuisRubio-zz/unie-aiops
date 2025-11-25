@@ -16,19 +16,18 @@ cp .env.example .env
 vi .env
 ```
 
-### Conda
+### UV Package Manager
 ```bash
-# Install conda in Linux:
-wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh && bash Miniconda3-latest-Linux-x86_64.sh
-conda --version
-echo $PATH # check conda is in the path
+# Install uv:
+curl -LsSf https://astral.sh/uv/install.sh | sh
+# Or on Windows: powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
 
-# To install dependencies and start environment:
-conda env create -f environment.yml
-conda activate langchain-llm
+# Create virtual environment and install dependencies:
+uv sync
 
-# If required, to deactivate conda environment
-conda deactivate
+# Activate environment:
+source .venv/bin/activate  # Linux/Mac
+# Or on Windows: .venv\Scripts\activate
 ```
 
 ### K8s MCP
@@ -40,10 +39,13 @@ chmod +x kubernetes-mcp-server
 
 sudo mv kubernetes-mcp-server /usr/bin/
 
-export KUBECONFIG=~/.kube/config
+
+# Load environment variables from .env file:
+source .env
+
 kubernetes-mcp-server \
   --port 8080 \
-  --kubeconfig $KUBECONFIG \
+  --kubeconfig ~/.kube/config \
   --sse-base-url http://127.0.0.1:8080 \
   --read-only \
   --log-level 9
@@ -54,7 +56,9 @@ User <---> Python Chat Script <---> Gemini API
                               \---> Kubernetes MCP Server <---> K8s cluster
 
 ```bash
-python main_mcp.py
+uv run python main_mcp.py
+# Or if environment is activated:
+# python main_mcp.py
 
 🤖 Gemini + Kubernetes MCP Chat (type 'exit' to quit)
 
