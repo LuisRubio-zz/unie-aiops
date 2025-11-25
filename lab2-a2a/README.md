@@ -16,7 +16,7 @@ conda activate a2a-agents
 
 2. Set your Gemini API key:
 ```bash
-set GEMINI_API_KEY=AIzaSyBJ7g0Q8IKn4tjnEjRvdwNLu_ZEulOxzcI
+set GEMINI_API_KEY=<GEMINI_API_KEY>
 ```
 
 3. Run the demo:
