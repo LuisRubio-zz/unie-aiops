@@ -1,0 +1,13 @@
+[project]
+name = "langraph-agents"
+version = "0.1.0"
+description = ""
+dependencies = [
+    "flask",
+    "langchain",
+    "langchain-google-genai",
+    "langchain-mcp-adapters",
+    "mcp",
+    "requests",
+]
+requires-python = ">=3.10"
