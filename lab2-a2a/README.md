@@ -247,6 +247,7 @@ The agent host demonstrates intelligent request routing and multi-agent coordina
 cd unie-aiops/lab2-a2a/
 source .env
 uv run python src/agent_host.py
+```
 
 ## 5. Results and Validation
 
