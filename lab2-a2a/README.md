@@ -1,6 +1,6 @@
 # AIOps-Enabled Agent2Agent Communication Framework for Automated ITIL Service Management
 
-**Author:** Luis Rubio, BSCs
+**Author:** Luis Rubio, MSc
 
 ## Abstract
 
