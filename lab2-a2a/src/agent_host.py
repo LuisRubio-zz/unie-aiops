@@ -30,6 +30,7 @@ class AgentHost:
         
         self.httpx_client = None
         self.clients = {}
+        self.agent_cards = {}  # Store agent cards separately
     
     async def __aenter__(self):
         self.httpx_client = httpx.AsyncClient()
@@ -42,6 +43,7 @@ class AgentHost:
                     base_url=base_url
                 )
                 agent_card = await resolver.get_agent_card()
+                self.agent_cards[agent_name] = agent_card  # Store card separately
                 self.clients[agent_name] = A2AClient(
                     httpx_client=self.httpx_client,
                     agent_card=agent_card
@@ -56,34 +58,32 @@ class AgentHost:
         if self.httpx_client:
             await self.httpx_client.aclose()
     
-    def _classify_request(self, user_input: str) -> str:
-        """Classify user request to determine which agent to use"""
-        user_input_lower = user_input.lower()
+    async def _classify_request(self, user_input: str) -> str:
+        """Use LLM to classify user request and select appropriate agent"""
         
-        # Kubernetes keywords
-        k8s_keywords = [
-            "kubernetes", "k8s", "pod", "deployment", "service", "namespace",
-            "cluster", "node", "container", "kubectl", "helm", "ingress"
-        ]
+        # Build agent information for LLM
+        agent_info = []
+        for agent_name in self.clients.keys():
+            agent_card = self.agent_cards[agent_name]
+            skills_info = []
+            for skill in agent_card.skills:
+                skills_info.append(f"- {skill.name}: {skill.description} (tags: {', '.join(skill.tags)})")
+            
+            agent_info.append(f"{agent_name}: {agent_card.description}\nSkills:\n" + "\n".join(skills_info))
         
-        # Ticketing keywords
-        ticket_keywords = [
-            "ticket", "issue", "bug", "problem", "support", "help desk",
-            "incident", "request", "complaint", "report"
-        ]
-       
-        # Check for ticketing keywords
-        if any(keyword in user_input_lower for keyword in ticket_keywords):
-            return "ticketing"
-        
-        # Check for Kubernetes keywords
-        if any(keyword in user_input_lower for keyword in k8s_keywords):
-            return "kubernetes"
-        
+        prompt = f"""Select the most appropriate agent for this user request: "{user_input}"
 
+Available agents:
+{chr(10).join(agent_info)}
+
+Respond with only the agent name (ticketing or kubernetes). If unsure, choose ticketing."""
         
-        # Default to ticketing for general support requests
-        return "ticketing"
+        try:
+            response = await self.model.ainvoke(prompt)
+            selected_agent = response.content.strip().lower()
+            return selected_agent if selected_agent in self.clients else "ticketing"
+        except Exception:
+            return "ticketing"  # Fallback
     
     def _parse_agent_response(self, response: Any, agent_type: str) -> str:
         """Parse response from A2A agent"""
@@ -96,7 +96,7 @@ class AgentHost:
         """Process user request and route to appropriate agent"""
         
         # Classify the request
-        agent_type = self._classify_request(user_input)
+        agent_type = await self._classify_request(user_input)
         
         if agent_type not in self.clients:
             return f"Error: {agent_type} agent is not available"
