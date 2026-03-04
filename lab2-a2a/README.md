@@ -233,7 +233,7 @@ vi .env
 # Install uv:
 curl -LsSf https://astral.sh/uv/install.sh | sh
 # Or on Windows: powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
-
+PATH=$PATH:$HOME/.local/bin
 # Install dependencies and create virtual environment:
 uv sync
 ```

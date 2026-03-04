@@ -29,17 +29,18 @@ vi .env
 # Install uv:
 curl -LsSf https://astral.sh/uv/install.sh | sh
 # Or on Windows: powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
-
+PATH=$PATH:$HOME/.local/bin
 # Install dependencies and create virtual environment:
 uv sync
 ```
 
 ### Ticketing Server
 ```bash
-# In a terminal start ticketing server in http://localhost:5000
+# In a terminal start ticketing server in http://<ip>:5000
 uv run python src/ticketing_server.py
 
 # In a new termnal start ticketing agent
+cd unie-aiops/lab1-agents/
 source .env
 uv run python src/ticketing_agent.py
 
@@ -54,7 +55,7 @@ Assistant: All tickets: ...
 ### Kubernetes Agent
 
 ```bash
-# Start k8s MCP in a termina
+# Start k8s MCP in a terminal
 # Download k8s MCP https://github.com/containers/kubernetes-mcp-server
 curl -L -o kubernetes-mcp-server https://github.com/containers/kubernetes-mcp-server/releases/download/v0.0.52/kubernetes-mcp-server-linux-amd64
 
@@ -63,6 +64,7 @@ chmod +x kubernetes-mcp-server
 sudo mv kubernetes-mcp-server /usr/bin/
 
 # Load environment variables from .env file:
+cd unie-aiops/lab1-agents/
 source .env
 
 kubernetes-mcp-server \
@@ -70,7 +72,7 @@ kubernetes-mcp-server \
   --kubeconfig ~/.kube/config \
   --sse-base-url http://127.0.0.1:8080 \
   --read-only \
-  --log-level 9
+  --log-level 0
 
 # In a new terminal atart Kubernetes agent
 source .env
