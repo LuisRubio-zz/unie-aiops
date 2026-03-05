@@ -57,3 +57,25 @@ uv.lock
 # Logs
 *.log
 **/*.log
+
+# LaTeX generated files
+*.aux
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.bbl
+*.blg
+*.dvi
+*.ps
+*.nav
+*.snm
+*.vrb
+*.bcf
+*.run.xml
+*.xdv
+*-blx.bib

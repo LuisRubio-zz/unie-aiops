@@ -94,20 +94,23 @@ The framework consists of three primary components that collectively demonstrate
 
 1. **Kubernetes A2A Agent**: Implements infrastructure monitoring and management capabilities through MCP protocol integration for cluster resource oversight
 2. **Ticketing A2A Agent**: Provides automated incident and service request management aligned with ITIL ticketing workflows
-3. **Agent Host**: Functions as a central orchestration layer that intelligently routes user requests to appropriate specialized agents based on contextual analysis
+3. **Autonomous Agent Orchestrator**: Functions as an intelligent orchestration layer that autonomously plans and executes multi-agent workflows, enabling complex cross-domain operations without human intervention
 
-The implementation leverages LLM for natural language understanding and demonstrates standardized inter-agent communication patterns through A2A protocol integration, enabling seamless coordination between specialized service management agents.
+The implementation leverages LLM for natural language understanding, autonomous workflow planning, and demonstrates standardized inter-agent communication patterns through A2A protocol integration, enabling seamless coordination between specialized service management agents with autonomous decision-making capabilities.
 
 ### 4.1 System Architecture
 
-The proposed Agentic AIOps framework implements a distributed multi-agent architecture with the following key components:
+The proposed Agentic AIOps framework implements a distributed multi-agent architecture with autonomous orchestration capabilities:
 
-**Agent Host (Central Orchestrator)**:
-- Implements intelligent request classification using keyword-based routing
-- Maintains HTTP connections to specialized agents via A2A protocol
-- Provides unified interface for user interactions
-- Handles agent discovery and capability resolution
-- Routes requests based on contextual analysis of user input
+**Autonomous Agent Orchestrator (Central Intelligence)**:
+- Implements LLM-based autonomous workflow planning for complex multi-step operations
+- Analyzes agent capabilities through exposed agent cards and skill definitions
+- Creates dynamic execution plans that span multiple specialized agents
+- Evaluates conditional logic based on intermediate results
+- Maintains conversation history and context across workflow steps
+- Provides intelligent context passing between agent invocations
+- Supports both single-agent and multi-agent coordination patterns
+- Handles agent discovery and capability resolution via A2A protocol
 
 **Kubernetes Monitoring Agent**:
 - Integrates with Kubernetes MCP server for real-time cluster monitoring
@@ -130,11 +133,13 @@ The proposed Agentic AIOps framework implements a distributed multi-agent archit
                                           │
                                           ▼
                     ┌─────────────────────────────────────────────────────────┐
-                    │                  Agent Host                             │
-                    │            (Central Orchestrator)                      │
-                    │         - Request Classification                       │
-                    │         - Agent Discovery                              │
-                    │         - A2A Protocol Management                      │
+                    │          Autonomous Agent Orchestrator                  │
+                    │            (Central Intelligence)                       │
+                    │         - LLM-Based Workflow Planning                   │
+                    │         - Multi-Step Execution Coordination             │
+                    │         - Conditional Logic Evaluation                  │
+                    │         - Context Management & Passing                  │
+                    │         - Agent Discovery via A2A Protocol              │
                     └─────────────────────┬───────────────────────────────────┘
                                           │
                             ┌─────────────┴─────────────┐
@@ -153,25 +158,29 @@ The proposed Agentic AIOps framework implements a distributed multi-agent archit
         │    - Tool Loading               │   │    - Ticket CRUD Operations     │
         │    - Session Management         │   │    - Database Management        │
         │    - API Abstraction            │   │    - HTTP API Endpoints         │
-        └─────────────────┬───────────────┘   └─────────────────────────────────┘
-                          │
-                          ▼
-        ┌─────────────────────────────────┐
-        │      Kubernetes Cluster         │
-        │    - Pods & Services            │
-        │    - Namespaces                 │
-        │    - Resource Monitoring        │
-        │    - Event Generation           │
-        └─────────────────────────────────┘
+        └─────────────────┬───────────────┘   └─────────────────┬───────────────┘
+                          │                                     │
+                          ▼                                     ▼
+        ┌─────────────────────────────────┐   ┌─────────────────────────────────┐
+        │      Kubernetes Cluster         │   │       Ticketing Web UI          │
+        │    - Pods & Services            │   │    - Ticket Visualization       │
+        │    - Namespaces                 │   │    - User Interface             │
+        │    - Resource Monitoring        │   │    - Real-time Updates          │
+        │    - Event Generation           │   │    - Ticket Management Portal   │
+        └─────────────────────────────────┘   └─────────────────────────────────┘
 ```
 
 **Request Processing Pipeline**:
-1. User submits natural language request to Agent Host
-2. Agent Host classifies request using keyword matching algorithm
-3. Appropriate specialized agent is selected based on classification
-4. Request is formatted as A2A protocol message with unique message ID
-5. Target agent processes request using LangChain agent executor
-6. Response is returned via A2A protocol and parsed for user presentation
+1. User submits natural language request to Autonomous Orchestrator
+2. Orchestrator uses LLM to analyze request and create multi-step workflow plan
+3. Workflow plan identifies required agents, actions, and conditional logic
+4. For each workflow step:
+   a. Orchestrator evaluates conditions based on previous results
+   b. If conditions are met, formats request as A2A protocol message
+   c. Target agent processes request using LangChain agent executor
+   d. Result is captured and stored as context for subsequent steps
+5. Orchestrator synthesizes final response from all workflow results
+6. Comprehensive summary is presented to user
 
 ### 4.3 Agent Implementation Details
 
@@ -199,9 +208,9 @@ The Agentic AIOps framework is implemented in Python and hosted in a GitHub repo
 
 **Project Structure:**
 ```
-unie-aiops/lab2-a2a/
+capstone-project/
 ├── src/
-│   ├── agent_host.py              # Central orchestration layer
+│   ├── agent_autonomous.py        # Autonomous multi-agent orchestrator
 │   ├── k8s_agent_server.py        # Kubernetes A2A agent server
 │   ├── k8s_agent_executor.py      # Kubernetes MCP integration logic
 │   ├── ticketing_a2a_server.py    # Ticketing A2A agent server
@@ -216,7 +225,7 @@ unie-aiops/lab2-a2a/
 ### Clone Repository
 ```bash
 git clone https://github.com/LuisRubio-zz/unie-aiops.git
-cd unie-aiops/lab2-a2a/
+cd unie-aiops/capstone-project/
 ```
 
 ### Environment variables
@@ -293,34 +302,89 @@ uv run python src/k8s_agent_server.py
 # Agent card at: http://localhost:8889/.well-known/agent
 ```
 
-#### 5.2.3 Orchestration Layer Implementation
-The agent host demonstrates intelligent request routing and multi-agent coordination:
+#### 5.2.3 Autonomous Orchestration Layer Implementation
+The autonomous agent orchestrator demonstrates intelligent multi-agent workflow planning and execution:
 
 ```bash
-# In a fifth terminal start agent host
-cd unie-aiops/lab2-a2a/
+# In a fifth terminal start autonomous agent orchestrator
+cd unie-aiops/capstone-project/
 source .env
-uv run python src/agent_host.py
+uv run python src/agent_autonomous.py
 ```
+
+The autonomous orchestrator provides advanced capabilities beyond simple request routing:
+
+**Autonomous Workflow Planning**: The orchestrator uses LLM-based planning to automatically decompose complex requests into multi-step workflows across different agents. For example, a request like "list namespaces and create ticket if pods in error" is automatically broken down into:
+1. Query Kubernetes agent for pod status across all namespaces
+2. Analyze results for error conditions
+3. Conditionally create ticket with error details if issues are found
+
+**Intelligent Decision Making**: The system evaluates conditions based on intermediate results, determining whether subsequent steps should be executed. This enables autonomous decision-making without human intervention.
+
+**Context-Aware Agent Coordination**: Results from previous steps are automatically passed as context to subsequent agents, enabling sophisticated information flow across the multi-agent system.
+
+**Skill-Based Agent Selection**: The orchestrator analyzes agent capabilities through their exposed agent cards and skills, dynamically selecting appropriate agents based on their advertised capabilities rather than hardcoded keywords.
 
 ## 6. Results and Validation
 
-The framework demonstrates successful automated request routing and agent coordination:
+The framework demonstrates successful autonomous multi-agent orchestration with intelligent workflow planning and execution:
 
-**Service Request Management:**
+**Autonomous Multi-Step Workflow Execution:**
+```
+User Input: "List namespaces and create ticket if pods in error in Failed state"
+
+🤔 Planning workflow for: List namespaces and create ticket if pods in error in Failed state
+📋 Workflow plan: 2 step(s)
+  1. [kubernetes] Get all pods and their status across all namespaces
+     ⚡ Condition: null
+  2. [ticketing] Create a ticket with the pod status information from the previous step
+     ⚡ Condition: if any issues found
+
+🔄 Step 1: Calling kubernetes agent...
+✓ Result: Found 3 namespaces: my-app, keycloak, data-lake
+         Pod status: 2 pods in Failed state in my-app namespace
+
+🔄 Step 2: Calling ticketing agent...
+✓ Result: Ticket #42 created: "Kubernetes Pod Failures - 2 pods in Failed state in my-app namespace"
+
+🤖 Final Response:
+Successfully identified pod failures and created incident ticket. The Kubernetes cluster has 2 pods in Failed state within the my-app namespace. Ticket #42 has been created to track the remediation of these infrastructure issues.
+```
+
+**Conditional Workflow Execution:**
+```
+User Input: "Check cluster health and report issues"
+
+🤔 Planning workflow for: Check cluster health and report issues
+📋 Workflow plan: 3 step(s)
+  1. [kubernetes] List all pods and their status across all namespaces
+  2. [kubernetes] Get details of any unhealthy pods
+     ⚡ Condition: if unhealthy pods found
+  3. [ticketing] Create ticket with cluster health issues
+     ⚡ Condition: if issues found
+
+🔄 Step 1: Calling kubernetes agent...
+✓ Result: All pods running normally across 3 namespaces
+
+⏭️  Step 2: Skipped (condition not met)
+⏭️  Step 3: Skipped (condition not met)
+
+🤖 Final Response:
+Cluster health check completed. All pods are running normally with no issues detected.
+```
+
+**Single-Agent Request Processing:**
 ```
 User Input: "create a ticket for server maintenance"
-System Response: "Ticket created successfully"
+System Response: "Ticket #43 created successfully for server maintenance"
 ```
 
-**Infrastructure Query Processing:**
-```
-User Input: "list the namespaces in my kubernetes cluster"
-System Response: "Here are the namespaces in your Kubernetes cluster:
-- my-app
-- keycloak  
-- data-lake"
-```
+The autonomous orchestrator successfully demonstrates:
+- Multi-step workflow planning and execution
+- Conditional logic based on intermediate results
+- Context passing between agents
+- Intelligent decision-making without human intervention
+- Graceful handling of both simple and complex requests
 
 ## 7. Discussion
 
@@ -385,5 +449,3 @@ The distributed architecture presented in this work provides a scalable foundati
 [11] Thompson, K., Brown, D., & Wilson, S. (2024). Secure agent-to-agent communication protocols for distributed computing environments. *Computer Networks*, 228, 109-123.
 
 [12] Wang, H., Zhang, M., & Li, J. (2024). Reinforcement learning for automated incident response in IT operations. *ACM Transactions on Autonomous and Adaptive Systems*, 18(1), 1-24.
-
-
